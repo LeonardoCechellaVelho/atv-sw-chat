@@ -1,0 +1,160 @@
+<head>  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <style>
+        .borda {
+            position: relative;
+            width: 495px;
+            height: 590px;
+            max-height: 600px;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color:#d50000;
+            background-image: 
+                repeating-linear-gradient(
+                45deg,
+                rgba(0,0,0,0.8),
+                rgba(0,0,0,0.8) 100px,
+                transparent 0px,
+                transparent 200px
+                ),
+                repeating-linear-gradient(
+                -45deg,
+                rgba(0,0,0,0.5),
+                rgba(0,0,0,0.5) 100px,
+                transparent 0px,
+                transparent 200px
+                );
+            box-shadow: black 1px 1px;
+            padding: 5px;
+        }
+        .titulo {
+            text-align: center;
+            margin: 5px 5px 0px 5px;
+            padding: 5px;
+            color: white;
+            text-shadow: black 2px 2px;
+        }
+        .conteudo-chat {
+            width: 480px;
+            height: 495px;
+            max-height: 505px;
+            border: 1px solid black;
+            overflow-y: scroll;
+            border-radius: 5px;
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/652/confectionary.png);
+            padding: 5px;
+        }
+        .input-chat {
+            padding: 5px 0px;
+            width: 85%;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: black 1px 1px;
+        }
+        .emojis {
+            border: 1px solid black;
+            padding: 4px 7px;
+            text-decoration: black;
+            font-weight: bold;
+            border-radius: 5px;
+            background-color: white;
+            box-shadow: black 1px 1px;
+            color: black;
+        }
+        .botao-envia {
+            border: 1px solid black;
+            padding: 4px 7px;
+            text-decoration: none;
+            border-radius: 5px;
+            color: black;
+            background-color: white;
+            box-shadow: black 1px 1px;
+            font-weight: bold;
+        }
+        .emoji {
+            width: 90px;
+            height: 90px;
+        }
+        .inputs {
+            padding-top: 5px;
+        }
+        #conversa tr{
+            margin-bottom: 15px;
+        }
+        #conversa td {
+            width: 200px;
+            max-width: 200px;
+            padding: 15px;
+            border-radius: 10px 10px 0px 10px;
+            border-bottom: 1px solid black;
+            text-overflow: initial;
+            background-color: white;
+            overflow: auto;
+            white-space: pre-line;
+        }
+        #conversa-robo td {
+            width: 200px;
+            max-width: 200px;
+            padding: 15px;
+            border-radius: 10px 10px 10px 0px;
+            border-bottom: 1px solid black;
+            text-overflow: ellipsis;
+            background-color: lightsalmon;
+        }
+    </style>
+</head>
+<body>
+    <div class="borda">
+        <h1 class="titulo">CHAT OBJETIVO</h1>
+        <div id="conteudo-chat" class="conteudo-chat">
+            <table align="left" id="conversa-robo" class="linha-chat"></table><br>
+            <table align="right" id="conversa" class="linha-chat"></table>
+        </div>
+        <div class="inputs">
+            <a class="emojis" href="#" onclick="addEmoji()"><i class="far fa-grin-squint-tears"></i></a>
+            <input id="chat" type="text" class="input-chat"></input>
+            <a class="botao-envia" type="submit" href="#" onclick="addText()"><i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</body>
+<script>
+    iniciarValores();
+    document.getElementById('chat').addEventListener('keypress', function(event) {
+        if (event.keyCode == 13) {
+            addText();
+        }
+    });
+    function iniciarValores() {
+        var linha = document.getElementById("conversa-robo").insertRow(-1);
+        var conteudo = linha.insertCell(0);
+        conteudo.innerHTML = "Envie uma mensagem!";
+    }
+    function addText() {
+        var texto = document.getElementById("chat").value;
+        enviaMsg(texto);
+    }
+    function addEmoji() {
+        var aleatorio = Math.random();
+        var src;
+        if (aleatorio>0.5) {
+            src = "https://www.extra-imagens.com.br/brinquedos/BonecosdeBrinquedos/comotreinarseudragao/13782572/1028971940/como-treinar-o-seu-dragao-pelucia-amigos-do-dragao-stormfly-sunny-13782572.jpg";
+        } else {
+            src = "https://upload.wikimedia.org/wikipedia/pt/e/ed/Shrek%28personagem%29.jpg";
+        }
+        var emoji = '<img class="emoji" src="'+src+'"/>'
+        enviaMsg(emoji);
+    }
+    function enviaMsg(texto) {
+        if(texto) {
+            var linha = document.getElementById("conversa").insertRow(-1);
+            var conteudo = linha.insertCell(0);
+            var mensagem = texto;
+            conteudo.innerHTML = mensagem;
+            var element = document.getElementById("conteudo-chat");
+            element.scrollTop = element.scrollHeight;
+            document.getElementById("chat").value = "";
+        }
+    }
+</script>
